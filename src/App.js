@@ -19,7 +19,7 @@ function App() {
 
 
   const checkForColumOfFour = () => {
-    for (let i = 0; i < 39; i++) {  
+    for (let i = 0; i <= 39; i++) {  
       const columnOfFour = [i, i + width, i + width * 2, i + width * 3]  
       const decidedColour = currentColourArrangement[i]
 
@@ -48,7 +48,7 @@ function App() {
 
   
   const checkForColumOfThree = () => {
-    for (let i = 0; i < 47; i++) {  //47 because the last set of three squares starts with index 47
+    for (let i = 0; i <= 47; i++) {  //47 because the last set of three squares starts with index 47
       const columnOfThree = [i, i + width, i + width * 2]  //eg [0, 0 + width(8), width(8) * 2 = 16] this is grabbing the three squares each below eachother
       const decidedColour = currentColourArrangement[i]
 
@@ -80,7 +80,10 @@ function App() {
       const firstRow = [0,1,2,3,4,5,6,7]
       const isFirstRow = firstRow.includes(i)
 
-      if
+      if(isFirstRow && currentColourArrangement[i] === ''){
+        let randomNumber = Math.floor(Math.random() * candyColours.length)
+        currentColourArrangement[i] = candyColours[randomNumber]
+      }
 
       if ((currentColourArrangement[i + width]) === '') { //if the square below the square we are looping is nothing then get the colour and change it
           currentColourArrangement[i + width] = currentColourArrangement[i]
@@ -90,8 +93,22 @@ function App() {
   }
 
 
+  const dragStart = (event) => {               // The dragstart event is fired when the user starts dragging an element or text selection
+    console.log(event.target);
+    console.log('drag Start');
+  }
 
 
+  const dragDrop = (event) => {
+    console.log(event.target);
+    console.log('drag Drop');
+  }
+
+
+  const dragEnd = (event) => {
+    console.log(event.target);
+    console.log('drag End');
+  }
 
 
 
@@ -127,7 +144,6 @@ function App() {
   }, [checkForColumOfFour, checkForRowOfFour, checkForColumOfThree, checkForRowOfThree, moveIntoSquareBelow, currentColourArrangement])
   
 
-console.log(currentColourArrangement);
 
 
   return (
@@ -138,6 +154,14 @@ console.log(currentColourArrangement);
                 key={index}
                 style={{backgroundColor: candyColours}}
                 alt={candyColours}
+                data-id={index}
+                draggable={true} // All visual elements can be made draggable with this attribute
+                onDragStart={dragStart}
+                onDragOver={(event) => event.preventDefault()}
+                onDragEnter={(event) => event.preventDefault()}
+                onDragLeave={(event) => event.preventDefault()}
+                onDrop={dragDrop}
+                onDragEnd={dragEnd}
             />
           ))}
       </div>
