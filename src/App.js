@@ -1,23 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react"
+
+const width = 8
+const candyColours = [
+  'blue',
+  'green',
+  'orange',
+  'purple',
+  'red',
+  'yellow'
+]
 
 function App() {
+
+  const [currentColourArrangement, setCurrentColourArrangement] = useState([])
+
+
+  const createBoard = () => {
+    const randomColourArrangement = []
+    for (let i = 0; i < width * width; i++) {   // basically give random number 
+      const randomColour = candyColours[Math.floor(Math.random() * candyColours.length)]  // go to colours and math.floor gives us a only full numbers and a random number based on the length of the array
+      randomColourArrangement.push(randomColour)
+    }
+    setCurrentColourArrangement(randomColourArrangement) // using randomColourArragement to set setCurrent to an array of random colours
+  }
+
+  useEffect(() => {
+    createBoard()
+  }, [])
+
+  console.log(currentColourArrangement);
+
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <div className="game">
+          {currentColourArrangement.map((candyColours, index) => (
+            <img
+                key={index}
+                style={{backgroundColor: candyColours}}
+            />
+          ))}
+      </div>
     </div>
   );
 }
