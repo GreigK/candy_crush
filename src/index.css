@@ -11,7 +11,7 @@
   display: flex;
   flex-wrap: wrap;
 }
-
+ /* using the 560 because its nicely divided by 8 which is then used for the image being 70 */
 .game img {
   width: 70px;
   height: 70px;
